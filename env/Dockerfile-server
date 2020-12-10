@@ -1,0 +1,7 @@
+FROM scratch
+
+COPY ./env/bin/server /bin/
+
+EXPOSE 9091
+
+ENTRYPOINT ["./bin/server"]

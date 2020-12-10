@@ -1,0 +1,9 @@
+FROM scratch
+
+COPY ./env/bin/client /bin/
+COPY ./env/ports.json /bin/
+
+EXPOSE 9090
+
+WORKDIR /bin
+ENTRYPOINT ["./client"]
