@@ -1,7 +1,7 @@
 FROM scratch
 
 COPY ./env/bin/client /bin/
-COPY ./env/ports.json /bin/
+COPY ./env/client/ports.json /opt/client/
 
 EXPOSE 8080
 

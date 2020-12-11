@@ -1,9 +1,17 @@
-### How to run
- - make
- - docker-compose -f ./env/docker-compose.yml up server
- - docker-compose -f ./env/docker-compose.yml up client
- - curl -v -XGET http://localhost:9090/port/AEAUH
+## How to run services
+ > make
+ > docker-compose -f ./env/docker-compose.yml up server
+ > docker-compose -f ./env/docker-compose.yml up client
+ > curl -v -XGET http://localhost:9090/port/AEAUH
 
-### Quality
- - make test
- - make lint
+### What if I want to send another json
+- stop client docker container
+- change env/client/ports.json, no need to re create docker image as it has mounted volume to this folder
+- run `docker-compose -f ./env/docker-compose.yml up client`
+
+### What if I want to erase datastore
+- stop server docker container
+
+## Run tests and linter
+ > make test
+ > make lint

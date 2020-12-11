@@ -6,10 +6,12 @@ services:
     image: 9ty-client:latest
     ports:
       - "9090:8080"
+    volumes:
+      - ./client/:/opt/client/
     environment:
       CLIENT_PORT_DOMAIN_GRPC_HOST: "9ty-server:9091"
       CLIENT_HTTP_HOST: ":8080"
-      CLIENT_PORT_DATA_JSON_FILE: "./ports.json"
+      CLIENT_PORT_DATA_JSON_FILE: "/opt/client/ports.json"
     deploy:
       resources:
         limits:
