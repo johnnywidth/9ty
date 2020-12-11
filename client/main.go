@@ -56,7 +56,7 @@ func loadApplicationServices(ctx context.Context) (stopFunc, error) {
 	portHandler := handler.NewPort(portDataUsecase)
 
 	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/port/{name}", portHandler.GetByName).Methods(http.MethodGet)
+	router.HandleFunc("/port/{name}", portHandler.Get).Methods(http.MethodGet)
 
 	server := &http.Server{
 		Addr:    os.Getenv("CLIENT_HTTP_HOST"),
@@ -90,7 +90,12 @@ func loadPortData(ctx context.Context, portDataUsecase *usecase.Port) error {
 	if err != nil {
 		return fmt.Errorf("read file failed. %w", err)
 	}
-	defer f.Close()
+	defer func() {
+		err := f.Close()
+		if err != nil {
+			fmt.Printf("error during close file. %s\n", err)
+		}
+	}()
 
 	r := bufio.NewReader(f)
 

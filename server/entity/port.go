@@ -1,7 +1,7 @@
 package entity
 
+// PortData port data
 type PortData struct {
-	ID          string
 	Name        string
 	City        string
 	Country     string

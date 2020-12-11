@@ -1,6 +1,9 @@
-TODO:
- - add mocks and tests
- - update readme with howto
- - change grpc return status codes
- - add code comments
- - add linter and tests to makefile
+### How to run
+ - make
+ - docker-compose -f ./env/docker-compose.yml up server
+ - docker-compose -f ./env/docker-compose.yml up client
+ - curl -v -XGET http://localhost:9090/port/AEAUH
+
+### Quality
+ - make test
+ - make lint

@@ -2,6 +2,6 @@ FROM scratch
 
 COPY ./env/bin/server /bin/
 
-EXPOSE 9091
+EXPOSE 8080
 
 ENTRYPOINT ["./bin/server"]

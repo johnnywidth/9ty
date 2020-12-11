@@ -12,7 +12,7 @@ import (
 	"github.com/johnnywidth/9ty/api"
 
 	"github.com/johnnywidth/9ty/server/handler"
-	"github.com/johnnywidth/9ty/server/persistance"
+	"github.com/johnnywidth/9ty/server/persistence"
 	"github.com/johnnywidth/9ty/server/repository"
 	"github.com/johnnywidth/9ty/server/usecase"
 )
@@ -38,7 +38,7 @@ func main() {
 	<-s
 }
 
-func loadApplicationServices(ctx context.Context) (stopFunc, error) {
+func loadApplicationServices(_ context.Context) (stopFunc, error) {
 	lis, err := net.Listen("tcp", os.Getenv("PORT_DOMAIN_GRPC_HOST"))
 	if err != nil {
 		return nil, err
@@ -46,7 +46,7 @@ func loadApplicationServices(ctx context.Context) (stopFunc, error) {
 
 	grpcServer := grpc.NewServer()
 
-	db := persistance.NewKvDB()
+	db := persistence.NewKvDB()
 
 	portRepository := repository.NewPort(db)
 

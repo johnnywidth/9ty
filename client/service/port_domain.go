@@ -9,10 +9,12 @@ import (
 	"github.com/johnnywidth/9ty/client/entity"
 )
 
+// PortDomain port domain service with grpc client
 type PortDomain struct {
 	client api.PortDomainClient
 }
 
+// NewPortDomain create new instance of port domain service
 func NewPortDomain(
 	client api.PortDomainClient,
 ) *PortDomain {
@@ -21,9 +23,10 @@ func NewPortDomain(
 	}
 }
 
-func (s *PortDomain) Create(ctx context.Context, e *entity.PortData) error {
+// Create send port data to Port Domain service
+func (s *PortDomain) Create(ctx context.Context, key string, e *entity.PortData) error {
 	_, err := s.client.Create(ctx, &api.PortRequest{
-		Id:          e.ID,
+		Key:         key,
 		Name:        e.Name,
 		City:        e.City,
 		Country:     e.Country,
@@ -42,8 +45,9 @@ func (s *PortDomain) Create(ctx context.Context, e *entity.PortData) error {
 	return nil
 }
 
-func (s *PortDomain) GetByName(ctx context.Context, name string) (*entity.PortData, error) {
-	e, err := s.client.Get(ctx, &api.GetRequest{Name: name})
+// Get get port data from Port Domain service for given port key
+func (s *PortDomain) Get(ctx context.Context, key string) (*entity.PortData, error) {
+	e, err := s.client.Get(ctx, &api.GetRequest{Key: key})
 	if err != nil {
 		return nil, fmt.Errorf("service get port data failed. %w", err)
 	}
@@ -52,7 +56,6 @@ func (s *PortDomain) GetByName(ctx context.Context, name string) (*entity.PortDa
 	}
 
 	return &entity.PortData{
-		ID:          e.Id,
 		Name:        e.Name,
 		City:        e.City,
 		Country:     e.Country,

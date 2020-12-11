@@ -1,4 +1,6 @@
 *.pb.go
+*.out
 
+bin/
 env/bin
 vendor/

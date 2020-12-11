@@ -7,10 +7,12 @@ import (
 	"github.com/johnnywidth/9ty/server/entity"
 )
 
+// Port port repository with datastore
 type Port struct {
 	db DB
 }
 
+// NewPort new instance of port repository
 func NewPort(
 	db DB,
 ) *Port {
@@ -19,8 +21,9 @@ func NewPort(
 	}
 }
 
-func (r *Port) Create(ctx context.Context, e *entity.PortData) error {
-	err := r.db.Set(e.ID, *e)
+// Create set port data to datastore for given key
+func (r *Port) Create(ctx context.Context, key string, e *entity.PortData) error {
+	err := r.db.Set(key, *e)
 	if err != nil {
 		return fmt.Errorf("db set port data failed. %w", err)
 	}
@@ -28,8 +31,9 @@ func (r *Port) Create(ctx context.Context, e *entity.PortData) error {
 	return nil
 }
 
-func (r *Port) GetByName(ctx context.Context, name string) (*entity.PortData, error) {
-	data, err := r.db.Get(name)
+// Get get port data for given key
+func (r *Port) Get(ctx context.Context, key string) (*entity.PortData, error) {
+	data, err := r.db.Get(key)
 	if err != nil {
 		return nil, fmt.Errorf("db get port data failed. %w", err)
 	}

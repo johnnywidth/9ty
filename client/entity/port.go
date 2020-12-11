@@ -1,7 +1,7 @@
 package entity
 
+// PortData represent port data
 type PortData struct {
-	ID          string    `json:"id"`
 	Name        string    `json:"name"`
 	City        string    `json:"city"`
 	Country     string    `json:"country"`

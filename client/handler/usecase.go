@@ -1,3 +1,5 @@
+//go:generate mockgen -package mock -destination=mock/port.go . PortUsecase
+
 package handler
 
 import (
@@ -6,6 +8,7 @@ import (
 	"github.com/johnnywidth/9ty/client/entity"
 )
 
-type PortDataUsecase interface {
-	GetByName(ctx context.Context, name string) (*entity.PortData, error)
+// PortUsecase usecase interface
+type PortUsecase interface {
+	Get(ctx context.Context, key string) (*entity.PortData, error)
 }

@@ -3,7 +3,7 @@ FROM scratch
 COPY ./env/bin/client /bin/
 COPY ./env/ports.json /bin/
 
-EXPOSE 9090
+EXPOSE 8080
 
 WORKDIR /bin
 ENTRYPOINT ["./client"]

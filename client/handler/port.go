@@ -11,24 +11,27 @@ import (
 	"github.com/johnnywidth/9ty/client/entity"
 )
 
+// Port http server for port representation
 type Port struct {
-	portDataUsecase PortDataUsecase
+	portUsecase PortUsecase
 }
 
+// NewPort create new instance of Port with all dependencies
 func NewPort(
-	portDataUsecase PortDataUsecase,
+	portUsecase PortUsecase,
 ) *Port {
 	return &Port{
-		portDataUsecase: portDataUsecase,
+		portUsecase: portUsecase,
 	}
 }
 
-func (h *Port) GetByName(w http.ResponseWriter, r *http.Request) {
+// Get http GET request to retrieve Port data by port key
+func (h *Port) Get(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	routeVars := mux.Vars(r)
 	name := routeVars["name"]
 
-	e, err := h.portDataUsecase.GetByName(ctx, name)
+	e, err := h.portUsecase.Get(ctx, name)
 	if errors.Is(err, entity.ErrNotFound) {
 		fmt.Println(err)
 		w.WriteHeader(http.StatusNotFound)

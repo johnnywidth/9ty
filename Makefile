@@ -7,9 +7,17 @@ SERVER_PKG_BUILD := "${PKG}/server"
 CLIENT_PKG_BUILD := "${PKG}/client"
 PKG_LIST := $(shell go list ${PKG}/... | grep -v /vendor/)
 
+## GolangCI-Lint version
+GOLANGCI_VERSION=1.26.0
+GOLANGCI_COMMIT=6bd10d01fde78697441d9c11e2235f0dbb1e2822
+
 .PHONY: all api server client
 
 all: build-client-image build-server-image
+
+.PHONY: test
+test:
+	go test ./... -cover -coverprofile cover-all.out
 
 api: api/port_domain.pb.go ## Auto-generate grpc go sources
 
@@ -32,6 +40,17 @@ build-client-image: build-client
 
 build-server-image: build-server
 	@docker build --no-cache -f env/Dockerfile-server -t 9ty-server:latest .
+
+.PHONY: lint
+lint: bin/golangci-lint ## Run golang-cilint with printing to stdout
+	./bin/golangci-lint run --out-format colored-line-number
+
+bin/golangci-lint: bin/golangci-lint-${GOLANGCI_VERSION}
+	@ln -sf golangci-lint-${GOLANGCI_VERSION} bin/golangci-lint
+bin/golangci-lint-${GOLANGCI_VERSION}:
+	@mkdir -p bin
+	curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/${GOLANGCI_COMMIT}/install.sh | BINARY=golangci-lint bash -s -- v${GOLANGCI_VERSION}
+	@mv bin/golangci-lint $@
 
 clean: ## Remove previous builds
 	@rm $(SERVER_OUT) $(CLIENT_OUT) $(API_OUT)

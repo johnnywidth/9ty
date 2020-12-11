@@ -10,10 +10,12 @@ import (
 	"github.com/johnnywidth/9ty/server/entity"
 )
 
+// PortServer grpc Port server
 type PortServer struct {
 	portUsecase PortUsecase
 }
 
+// NewPortServer new instance of port server
 func NewPortServer(
 	portUsecase PortUsecase,
 ) *PortServer {
@@ -22,9 +24,9 @@ func NewPortServer(
 	}
 }
 
+// Create create port data
 func (h *PortServer) Create(ctx context.Context, r *api.PortRequest) (*api.Empty, error) {
-	err := h.portUsecase.Create(ctx, &entity.PortData{
-		ID:          r.Id,
+	err := h.portUsecase.Create(ctx, r.Key, &entity.PortData{
 		Name:        r.Name,
 		City:        r.City,
 		Country:     r.Country,
@@ -46,8 +48,9 @@ func (h *PortServer) Create(ctx context.Context, r *api.PortRequest) (*api.Empty
 	return &api.Empty{}, nil
 }
 
+// Get get port data for given port name
 func (h *PortServer) Get(ctx context.Context, r *api.GetRequest) (*api.PortResponse, error) {
-	e, err := h.portUsecase.GetByName(ctx, r.Name)
+	e, err := h.portUsecase.Get(ctx, r.Key)
 	if errors.Is(err, entity.ErrNotFound) {
 		return &api.PortResponse{}, nil
 	} else if err != nil {
@@ -57,7 +60,6 @@ func (h *PortServer) Get(ctx context.Context, r *api.GetRequest) (*api.PortRespo
 	}
 
 	return &api.PortResponse{
-		Id:          e.ID,
 		Name:        e.Name,
 		City:        e.City,
 		Country:     e.Country,

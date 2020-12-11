@@ -6,7 +6,8 @@ import (
 	"github.com/johnnywidth/9ty/server/entity"
 )
 
+// PortUsecase port usecase
 type PortUsecase interface {
-	Create(ctx context.Context, e *entity.PortData) error
-	GetByName(ctx context.Context, name string) (*entity.PortData, error)
+	Create(ctx context.Context, key string, e *entity.PortData) error
+	Get(ctx context.Context, key string) (*entity.PortData, error)
 }
