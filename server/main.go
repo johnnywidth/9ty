@@ -9,11 +9,14 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/johnnywidth/9ty/api/port"
+	"github.com/johnnywidth/9ty/api"
+
 	"github.com/johnnywidth/9ty/server/handler"
+	"github.com/johnnywidth/9ty/server/persistance"
+	"github.com/johnnywidth/9ty/server/repository"
+	"github.com/johnnywidth/9ty/server/usecase"
 )
 
-// stopFunc stop app
 type stopFunc func()
 
 func main() {
@@ -43,7 +46,13 @@ func loadApplicationServices(ctx context.Context) (stopFunc, error) {
 
 	grpcServer := grpc.NewServer()
 
-	port.RegisterPortServer(grpcServer, handler.NewPortServer())
+	db := persistance.NewKvDB()
+
+	portRepository := repository.NewPort(db)
+
+	portUsecase := usecase.NewPort(portRepository)
+
+	api.RegisterPortDomainServer(grpcServer, handler.NewPortServer(portUsecase))
 
 	go func() {
 		err := grpcServer.Serve(lis)

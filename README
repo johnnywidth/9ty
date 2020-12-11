@@ -1,0 +1,6 @@
+TODO:
+ - add mocks and tests
+ - update readme with howto
+ - change grpc return status codes
+ - add code comments
+ - add linter and tests to makefile

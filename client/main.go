@@ -13,7 +13,7 @@ import (
 	"github.com/gorilla/mux"
 	"google.golang.org/grpc"
 
-	"github.com/johnnywidth/9ty/api/port"
+	"github.com/johnnywidth/9ty/api"
 
 	"github.com/johnnywidth/9ty/client/handler"
 	"github.com/johnnywidth/9ty/client/service"
@@ -47,13 +47,13 @@ func loadApplicationServices(ctx context.Context) (stopFunc, error) {
 		return nil, err
 	}
 
-	portClient := port.NewPortClient(grpcConn)
+	portClient := api.NewPortDomainClient(grpcConn)
 
 	portDomainService := service.NewPortDomain(portClient)
 
-	portDataUsecase := usecase.NewPortData(portDomainService)
+	portDataUsecase := usecase.NewPort(portDomainService)
 
-	portHandler := handler.NewPortHandler(portDataUsecase)
+	portHandler := handler.NewPort(portDataUsecase)
 
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/port/{name}", portHandler.GetByName).Methods(http.MethodGet)
@@ -85,7 +85,7 @@ func loadApplicationServices(ctx context.Context) (stopFunc, error) {
 	}, nil
 }
 
-func loadPortData(ctx context.Context, portDataUsecase *usecase.PortData) error {
+func loadPortData(ctx context.Context, portDataUsecase *usecase.Port) error {
 	f, err := os.Open(os.Getenv("CLIENT_PORT_DATA_JSON_FILE"))
 	if err != nil {
 		return fmt.Errorf("read file failed. %w", err)

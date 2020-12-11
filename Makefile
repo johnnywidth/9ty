@@ -1,6 +1,6 @@
 SERVER_OUT := "env/bin/server"
 CLIENT_OUT := "env/bin/client"
-API_OUT := "api/port/*.pb.go"
+API_OUT := "api/*.pb.go"
 
 PKG := "github.com/johnnywidth/9ty"
 SERVER_PKG_BUILD := "${PKG}/server"
@@ -11,15 +11,15 @@ PKG_LIST := $(shell go list ${PKG}/... | grep -v /vendor/)
 
 all: build-client-image build-server-image
 
-api: api/port.pb.go ## Auto-generate grpc go sources
+api: api/port_domain.pb.go ## Auto-generate grpc go sources
 
-api/port.pb.go:
+api/port_domain.pb.go:
 	@protoc --go_out=. \
 	--go-grpc_opt=require_unimplemented_servers=false \
 	--go_opt=paths=source_relative \
 	--go-grpc_out=. \
 	--go-grpc_opt=paths=source_relative \
-	api/port/port.proto
+	api/port_domain.proto
 
 build-server: api ## Build the binary file for server
 	@CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -o $(SERVER_OUT) $(SERVER_PKG_BUILD)

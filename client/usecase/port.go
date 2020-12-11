@@ -7,19 +7,19 @@ import (
 	"github.com/johnnywidth/9ty/client/entity"
 )
 
-type PortData struct {
+type Port struct {
 	portDomainService PortDomainService
 }
 
-func NewPortData(
+func NewPort(
 	portDomainService PortDomainService,
-) *PortData {
-	return &PortData{
+) *Port {
+	return &Port{
 		portDomainService: portDomainService,
 	}
 }
 
-func (u *PortData) Create(ctx context.Context, e *entity.PortData) error {
+func (u *Port) Create(ctx context.Context, e *entity.PortData) error {
 	err := u.portDomainService.Create(ctx, e)
 	if err != nil {
 		return fmt.Errorf("create failed. %w", err)
@@ -28,7 +28,7 @@ func (u *PortData) Create(ctx context.Context, e *entity.PortData) error {
 	return nil
 }
 
-func (u *PortData) GetByName(ctx context.Context, name string) (*entity.PortData, error) {
+func (u *Port) GetByName(ctx context.Context, name string) (*entity.PortData, error) {
 	e, err := u.portDomainService.GetByName(ctx, name)
 	if err != nil {
 		return nil, fmt.Errorf("get port data failed. %w", err)
