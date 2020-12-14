@@ -14,6 +14,9 @@ all: build-client-image build-server-image
 test:
 	go test ./... -cover -coverprofile cover-all.out
 
+gen-mock: 
+	go generate ./...
+
 api: api/port_domain.pb.go ## Auto-generate grpc go sources
 
 api/port_domain.pb.go:

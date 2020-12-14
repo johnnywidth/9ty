@@ -1,3 +1,5 @@
+//go:generate mockgen -package mock -destination=mock/port_domain.go github.com/johnnywidth/9ty/api PortDomainClient
+
 package service
 
 import (

@@ -21,5 +21,6 @@ Please, check env/client/ports.json - this file will be send from client to serv
 - stop server docker container and run `docker-compose -f ./env/docker-compose.yml up server`
 
 ## Run tests and linter
+ > make gen-mock
  > make test
  > make lint
